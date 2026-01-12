@@ -1,0 +1,10 @@
+bin/
+.cache/
+firmware/
+static/
+.DS_Store
+.vscode/
+.d/
+common.mk
+compile_commands.json
+Makefile
