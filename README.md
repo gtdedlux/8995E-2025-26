@@ -1,13 +1,17 @@
 # vexRobotics8995E
 ### 8995E — 2025–2026 VEX Robotics Season (PUSH BACK)
 
+<p align="center">
+  <img src="images/IMG_0377.jpeg" alt="Team 8995E Robot and Think Award" width="600">
+</p>
+
 This repository contains all programming projects developed by **Team 8995E** during the **2025–2026 VEX Robotics Push Back season**.
 
 The focus of this season is **robust autonomous consistency**, **clean code organization**, and **match-ready performance** using PROS-based frameworks.
 
 ---
 
-##  Season Overview
+## Season Overview
 
 # **2025–2026 Season — PUSH BACK**
 During the Push Back season, our team is developing and iterating on multiple autonomous routines and control systems designed for both **skills challenges** and **match play**.
@@ -16,9 +20,9 @@ This repository is organized as a **monorepo**, containing separate projects for
 
 ---
 
-##  Project Breakdown
+## Project Breakdown
 
-###  Skills Autonomous 
+### Skills Autonomous
 The **Skills** project is built using **LemLib** with dead-wheel odometry.
 
 **Key features:**
@@ -31,7 +35,7 @@ The **Skills** project is built using **LemLib** with dead-wheel odometry.
 
 ---
 
-###  Match Autonomous 
+### Match Autonomous
 The **Match Auton** project contains autonomous routines tailored for different starting positions and strategies.
 
 **Key features:**
@@ -44,7 +48,7 @@ The **Match Auton** project contains autonomous routines tailored for different 
 
 ---
 
-###  Shared Code
+### Shared Code
 Common logic used across all projects is stored in the shared directory.
 
 Includes:
@@ -52,32 +56,34 @@ Includes:
 - PID and motion utilities
 - Sensor wrappers and helper functions
 
-📁 Location: `main.cpp`
-
 ---
 
 ## 🎥 Autonomous Demo Runs
+
+<p align="center">
+  <img src="images/IMG_0447.jpg" alt="Autonomous Skills Run in Progress" width="500">
+</p>
 
 > Videos are hosted externally and linked here for easy viewing.
 
 ###  Autonomous Skills Runs
 *(Links will be added as the season progresses)*
--  Skills Run #1 — TBD
--  Skills Run #2 — TBD
+-  Skills Run #1 — TBD  
+-  Skills Run #2 — TBD  
 
 ### Match Autonomous Runs
 *(Links will be added as routines are finalized)*
--  Match Auton (Left) — TBD
--  Match Auton (Right) — TBD
+-  Match Auton (Left) — TBD  
+-  Match Auton (Right) — TBD  
 
 ---
 
 ## 🛠️ Getting Started
 
 ### Requirements
-- VS Code
-- PROS Extension for VS Code
-- VEX V5 hardware
+- VS Code  
+- PROS Extension for VS Code  
+- VEX V5 hardware  
 
 Each project directory is its **own PROS project**.
 
