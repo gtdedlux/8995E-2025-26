@@ -12,8 +12,8 @@ void setIntake2(int speed) {
 }
 
 void setIntakeM(int speed) {
-    intakeM.move(-speed);
-    intakeT.move(speed);
+    intakeM.move(speed);
+    intakeT.move(-(speed)/2);
     pros::delay(10);
 }
 

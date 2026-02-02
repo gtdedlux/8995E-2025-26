@@ -172,6 +172,8 @@ void initialize() {
             pros::lcd::print(4, "IMU Heading: %f", imu.get_heading());
             pros::lcd::print(5, "AVG IMU Heading: %f", avgImuHeading(imu.get_heading(), imu2.get_heading()));
             pros::lcd::print(6, "IMU Orientation: %f", imu.get_physical_orientation());
+       // pros::lcd::print(7, "L1 State %f", (master.get_digital(DIGITAL_L1)));
+
 
             pros::delay(100);
         }
@@ -234,7 +236,7 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    skillsAuto();
+    //skillsAuto();
 
 }
 
@@ -270,25 +272,31 @@ void opcontrol() {
         if(master.get_digital_new_press(DIGITAL_Y) && master.get_digital_new_press(DIGITAL_X)){
             autonomous();
         }
-        setIntake1((master.get_digital(DIGITAL_R1) - master.get_digital(DIGITAL_R2)) * 120);
-	    setIntake2((master.get_digital(DIGITAL_L1) - master.get_digital(DIGITAL_L2)) * 120);
-       
-        /*
-        if (master.get_digital(DIGITAL_B)) {
-		    setIntakeM(120);
-            pros::delay(50);
-		}
-        if (master.get_digital(DIGITAL_X)) {
-		    setIntakeM(-120);
-            pros::delay(50);
-		}
-        */
-		
+
+        
+     setIntake1((master.get_digital(DIGITAL_R1) - master.get_digital(DIGITAL_R2)) * 127);
+
+        //Hack to fix PROS key stroke issues. it gives button press even when it not pressed.
+    if (master.get_digital(DIGITAL_X)) {
+        setIntakeM(90);
+    } else {
+        setIntake2((master.get_digital(DIGITAL_L1) - master.get_digital(DIGITAL_L2)) * 127);
+    }
+
+
+
 		if (master.get_digital_new_press(DIGITAL_UP)) {
 		toungue.retract();
 		}
 		if (master.get_digital_new_press(DIGITAL_DOWN)) {
 		toungue.extend();
+		}
+
+        if (master.get_digital_new_press(DIGITAL_B)) {
+		wing.retract();
+		}
+		if (master.get_digital_new_press(DIGITAL_A)) {
+		wing.extend();
 		}
 
 

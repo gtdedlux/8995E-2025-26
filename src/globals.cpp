@@ -4,7 +4,7 @@
 
  pros::Motor intake1(14,pros::v5::MotorGears::blue); 
 pros::Motor intakeM(-12,pros::v5::MotorGears::green); 
-pros::Motor intakeT(-19,pros::v5::MotorGears::green); 
+pros::Motor intakeT(19,pros::v5::MotorGears::green); 
 
 
 
