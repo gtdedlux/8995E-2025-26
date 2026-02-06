@@ -1,12 +1,15 @@
 #include "main.h"
 #include <cmath>
+
+
+
 void setIntake1(int speed) {
     intake1.move(speed);
+    intakeM.move(speed);
     pros::delay(10);
 }
 
 void setIntake2(int speed) {
-    intakeM.move(speed);
     intakeT.move(speed);
     pros::delay(10);
 }

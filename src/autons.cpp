@@ -1,5 +1,6 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
+//#include "globals.cpp"
 
 
 
@@ -85,7 +86,7 @@ void leftSideAuto(){
     // _________________
 
 
-    pros::delay(500);
+
 
 
 }
@@ -118,10 +119,10 @@ void skillsAuto(){
     // pros::delay(500); // wait for a moment to shoot
     // intake1Speed = 0;
 
-//UNCOMMENT HHEHHEHHE_____________________________________________
+//UNCOMMENT _________________________________________
     //move to loader
     chassis.setPose(0, 9, 90);
-    chassis.moveToPoint(49.5, 9, 5000, {.maxSpeed = 90}); 
+    chassis.moveToPoint(50, 9, 5000, {.maxSpeed = 90}); 
 
     pros::delay(500);
     toungue.extend();
@@ -132,33 +133,31 @@ void skillsAuto(){
     //distance sensor reset  
     pros::lcd::print(7, "X: %f", 72-((distanceL.get_distance())/25.4));
    pros::delay(1000); //NEED THIS DELAY TO LET POS UPDATE BEFORE TURNING
-    chassis.setPose((72-(distanceL.get_distance())/25.4),10, 180); 
+    chassis.setPose((72-(distanceL.get_distance())/25.4),9, 180); 
+
+    
 
     //load balls
     intake1Speed = 120;
-    chassis.moveToPoint(53, -1.5, 1000, {.maxSpeed = 80});
-    pros::delay(2700);
-    chassis.moveToPoint(53, 3, 1000, {.forwards = false, .maxSpeed = 80});
-    chassis.moveToPoint(53, -2, 1000, {.maxSpeed = 80});
-    pros::delay(300); 
+    loadBalls();
 
-   
+     int y = 95;
     //move to other side
     chassis.moveToPoint(53, 5, 5000, {.forwards = false}); 
-    toungue.retract();
     pros::delay(500);
-    chassis.moveToPoint(32, 35, 5000, {.forwards = false,  .minSpeed=62, .earlyExitRange=4}); 
-    chassis.moveToPoint(36, 83, 5000, {.forwards = false, .minSpeed=62, .earlyExitRange=2}); //change back to 40
-   // chassis.moveToPoint(50, 100, 5000, {.forwards = false, .maxSpeed = 70, }); 
-    chassis.moveToPoint(57, 105, 5000, {.forwards = false, .maxSpeed = 70, }); 
+    toungue.retract();
     intake1Speed = 0;
+    chassis.moveToPoint(66, 32, 5000, {.forwards = false,  .minSpeed=62, .earlyExitRange=4}); 
+    chassis.moveToPoint(65, 83, 5000, {.forwards = false, .minSpeed=62, .earlyExitRange=2}); //change back to 40
+   // chassis.moveToPoint(50, 100, 5000, {.forwards = false, .maxSpeed = 70, }); 
+    chassis.moveToPoint(53, y, 5000, {.forwards = false, .maxSpeed = 70, }); 
 
       //distance sensor reset  
       pros::delay(50);
-   chassis.turnToHeading(180, 500);
-    pros::lcd::print(7, "X: %f", 72-((distanceL.get_distance())/25.4));
-   pros::delay(800); //NEED THIS DELAY TO LET ROBOT GET TO POINT BEFORE SETTING POSE
-    chassis.setPose((72-(distanceL.get_distance())/25.4),107, 180); 
+   chassis.turnToHeading(0, 1000);
+   chassis.waitUntilDone();
+    pros::lcd::print(7, "X: %f", 72-((distanceR.get_distance())/25.4));
+    chassis.setPose((72-(distanceR.get_distance())/25.4),y, 0); 
         pros::delay(200);
 
 
@@ -166,9 +165,9 @@ void skillsAuto(){
    chassis.turnToHeading(0, 500); // turn to face goal
     pros::delay(50); // wait for a moment to stabilize
     //chassis.moveToPoint(53, 100, 1500, {.forwards = false, .maxSpeed = 70});
-    chassis.moveToPoint(56, 90, 1500, {.forwards = false, .maxSpeed = 70});
-    chassis.turnToHeading(0, 50); // turn to face goal
-    pros::delay(20); // wait for a moment to stabilize
+    chassis.moveToPose(54, 83, 0, 5000, {.forwards = false});
+    pros::delay(1500); // wait for a moment to shoot
+    wing.extend();
     intake1Speed = 120;
     intake2Speed = 120;  
     pros::delay(2500); // wait for a moment to shoot
@@ -181,59 +180,55 @@ void skillsAuto(){
     intake1Speed = 120;
     
     
-    chassis.moveToPoint(55, 115, 5000, {.maxSpeed = 80, .minSpeed=30, .earlyExitRange=4});
-    chassis.moveToPoint(55, 127, 5000, {.maxSpeed = 50});
-    pros::delay(2700);
-    chassis.moveToPoint(55, 120, 1000, {.forwards = false});
-    chassis.moveToPoint(55, 128, 1000); 
-    pros::delay(500);
+     chassis.moveToPoint(53, 104.5, 5000);
+     chassis.waitUntilDone();
+     wing.retract();
+     loadBalls();
+     pros::delay(1500); //added delay to ensure balls are loaded
+     
+//     //final shoot
 
-    //final shoot
-  chassis.moveToPoint(55, 91.5, 4000, {.forwards = false, .maxSpeed = 70});
-    pros::delay(1000); // wait for a moment to stabilize
+    chassis.moveToPoint(54, 83, 5000, {.forwards = false});
+    chassis.turnToHeading(0, 50); // turn to face goal
+    pros::delay(20); // wait for a moment to stabilize
+    wing.extend();
     intake1Speed = 120;
-    intake2Speed = 120; 
-    pros::delay(500);
-    intake1Speed = -70;
-    intake2Speed = -70; 
-    pros::delay(50); //jam reverse
-    intake1Speed = 120;
-    intake2Speed = 120; 
-    pros::delay(200);
-    intake1Speed = -70;
-    pros::delay(50); //jam reverse
-    intake1Speed = 120;
-    pros::delay(2000);
+    intake2Speed = 120;  
+    pros::delay(2500); // wait for a moment to shoot
+
+ 
     
+      chassis.moveToPoint(54, 92, 5000);
 
-    chassis.moveToPoint(55, 100, 5000, {.minSpeed=72, .earlyExitRange=4});
+//     //imu reset
+//     /*
+//     pros::delay(800);
+//     chassis.setPose(55,100, avgImuHeading(imu.get_heading(), imu2.get_heading()));   
+//     */
 
-    //imu reset
-    /*
-    pros::delay(800);
-    chassis.setPose(55,100, avgImuHeading(imu.get_heading(), imu2.get_heading()));   
-    */
-
-    chassis.turnToHeading(90,500);
+     chassis.turnToHeading(90,1000);
 
     intake1Speed = 0;
     intake2Speed = 0; 
     toungue.retract();
+     int x = 39;
 
-    //travel
-    chassis.moveToPoint(40, 100, 5000, {.forwards = false});
-
+     //travel
+    chassis.moveToPose(x, 92,90, 5000, {.forwards = false});
+//TAPED ____________________________
           //distance sensor reset  
      
     pros::lcd::print(7, "X: %f", 72-((distanceL.get_distance())/25.4));
    pros::delay(1000); //NEED THIS DELAY TO LET ROBOT GET TO POINT BEFORE SETTING POSE
-    chassis.setPose(45,109-(distanceL.get_distance())/25.4, 90); 
+    chassis.setPose(x,109-(distanceL.get_distance())/25.4, 90); 
 
-        chassis.moveToPoint(-36, 85, 5000, {.forwards = false, .minSpeed=72, .earlyExitRange=6});
-        chassis.moveToPoint(-41, 85, 5000, {.forwards = false, .maxSpeed = 55});
+        chassis.moveToPoint(-38, 88, 5000, {.forwards = false, .minSpeed=72, .earlyExitRange=6});
+        chassis.moveToPoint(-45, 91, 5000, {.forwards = false, .maxSpeed = 55});
+
+        wing.retract();
 
 
-//     //REFLECTION
+    //REFLECTION
 
    pros::delay(500);
     toungue.extend();
@@ -242,43 +237,46 @@ void skillsAuto(){
     intake1Speed = 120;
     chassis.turnToHeading ( 0, 5000);
 
+
     //distance sensor reset  
     pros::lcd::print(7, "X: %f", 72-((distanceL.get_distance())/25.4));
    pros::delay(1000); //NEED THIS DELAY TO LET POS UPDATE BEFORE TURNING
-    chassis.setPose(-(72-(distanceL.get_distance())/25.4),95, 0); 
+    chassis.setPose(-(72-(distanceL.get_distance())/25.4),86.5, 0); //CHECK ALL VALUES 
 
-    //load balls
-    chassis.moveToPoint(-53, 109, 1000, {.maxSpeed = 80});
-    pros::delay(2700);
-    chassis.moveToPoint(-53, 101, 1000, {.forwards = false, .maxSpeed = 80});
-    chassis.moveToPoint(-53, 110, 1000, {.maxSpeed = 80});
-    pros::delay(300);
+    loadBalls();
 
+
+     y = 2;
     //move to other side
     chassis.moveToPoint(-53, 95, 5000, {.forwards = false}); 
     pros::delay(500);
     toungue.retract();
-    chassis.moveToPoint(-36, 67, 5000, {.forwards = false,  .minSpeed=82, .earlyExitRange=6}); 
-    chassis.moveToPoint(-40, 28, 5000, {.forwards = false, .minSpeed=62, .earlyExitRange=6}); //change back to 40
-   // chassis.moveToPoint(50, 100, 5000, {.forwards = false, .maxSpeed = 70, }); 
-    chassis.moveToPoint(-69, -5, 5000, {.forwards = false, .maxSpeed = 70 }); 
     intake1Speed = 0;
+    chassis.moveToPoint(-66, 70, 5000, {.forwards = false,  .minSpeed=62, .earlyExitRange=4}); 
+     chassis.moveToPoint(-65, 13, 5000, {.forwards = false, .minSpeed=62, .earlyExitRange=2}); //change back to 40
+     chassis.moveToPoint(-53, y, 5000, {.forwards = false, .maxSpeed = 70, }); 
 
-         //distance sensor reset  
+      //distance sensor reset  
       pros::delay(50);
-   chassis.turnToHeading(0, 500);
-    pros::lcd::print(7, "X: %f", 72-((distanceL.get_distance())/25.4));
-   pros::delay(1000); //NEED THIS DELAY TO LET ROBOT GET TO POINT BEFORE SETTING POSE
-    chassis.setPose(-(72-(distanceL.get_distance())/25.4),12, 0); 
+   chassis.turnToHeading(180, 1000);
+   chassis.waitUntilDone();
+    pros::lcd::print(7, "X: %f", 72-((distanceR.get_distance())/25.4));
+    chassis.setPose(-(72-(distanceR.get_distance())/25.4),y, 180); 
+        pros::delay(200);
+
 
    //score loaded balls
    chassis.turnToHeading(180, 500); // turn to face goal
-     chassis.moveToPoint(-56, 20, 5000, {.forwards = false, .maxSpeed = 80});
-    chassis.turnToHeading(180, 25); // turn to face goal
+    pros::delay(50); // wait for a moment to stabilize
+    //chassis.moveToPoint(53, 100, 1500, {.forwards = false, .maxSpeed = 70});
+    chassis.moveToPose(-54, 15, 180, 5000, {.forwards = false});
+    pros::delay(500); // wait for a moment to shoot
+    wing.extend();
     intake1Speed = 120;
     intake2Speed = 120;  
-    pros::delay(2500); // wait for a moment to shoot
-     
+    pros::delay(1500); // wait for a moment to shoot
+
+    
     //second loader
     intake1Speed = 0;
     intake2Speed = 0;
@@ -286,46 +284,67 @@ void skillsAuto(){
     intake1Speed = 120;
     
     
-    chassis.moveToPoint(-55, -5, 5000, {.maxSpeed = 80, .minSpeed=30, .earlyExitRange=4});
-    chassis.moveToPoint(-55, -16.5, 5000, {.maxSpeed = 50});
-    pros::delay(2700);
-    chassis.moveToPoint(-55, -12, 1000, {.forwards = false});
-    chassis.moveToPoint(-55, -17, 1000); 
-    pros::delay(300);
+     chassis.moveToPoint(-52.5, -6, 5000);
+     chassis.waitUntilDone();
+     wing.retract();
+     loadBalls();
+     pros::delay(1500); //added delay to ensure balls are loaded
+     
+     //final shoot
 
-    //final shoot
-  chassis.moveToPoint(-55, 20, 2000, {.forwards = false, .maxSpeed = 70});
-    pros::delay(1000); // wait for a moment to stabilize
+    chassis.moveToPoint(-54, 15, 5000, {.forwards = false});
+    wing.extend();
+    chassis.turnToHeading(180, 50); // turn to face goal
+    pros::delay(20); // wait for a moment to stabilize
+    toungue.retract();
     intake1Speed = 120;
-    intake2Speed = 120;    
-    pros::delay(2000);
+    intake2Speed = 120;  
+    pros::delay(1000); // wait for a moment to shoot
+
+    intake1Speed = 0;
+
+    //PARK
+    //chassis.setPose(-54, 15, 180); //REMOVE
+     chassis.moveToPoint(-39, -21,  2000, {.maxSpeed = 80});
+//     //chassis.swingToHeading( 90,lemlib::DriveSide::LEFT, 500, {.minSpeed = 127, .earlyExitRange = 10});
+   chassis.turnToHeading (90, 1000);
+     chassis.moveToPoint(-43, -21,  5000, {.forwards = false});
+    chassis.moveToPoint(-10, -22.5, 5000, {.minSpeed = 100, .earlyExitRange = 5});
+     pros::delay(500); 
+    //toungue.extend();
+
+
+    
 
 
 
-
-
-     pros::delay(5000); // wait for a m
+     pros::delay(5000); // wait for a min type
      
 }
 
-void thankYOU(){
-        int n = 0;
-    chassis.setPose(0, 0, 0);
-    while (n < 7) {
-        chassis.moveToPoint(0, 3, 5000, {.minSpeed=72, .earlyExitRange=4}); 
-        chassis.moveToPoint(0, 0, 5000, { .forwards = false, .minSpeed=52, .earlyExitRange=4,}); 
-        n = n + 1;
-    }
-    n = 0;
-    while (n < 7) {
-        chassis.moveToPoint(0, 3, 5000, {.minSpeed=72, .earlyExitRange=4} ); 
-        chassis.moveToPoint(0, 0, 5000, { .forwards = false, .minSpeed=52, .earlyExitRange=4,}); 
-        chassis.turnToHeading(-7, 1000, { .minSpeed=52, .earlyExitRange=8,});
-        chassis.turnToHeading(7, 1000,  { .minSpeed=52, .earlyExitRange=4,});
-        n = n + 1;
-    }
-    
-    
 
+
+void loadBalls(){
+    float x = chassis.getPose().x;
+    float y = chassis.getPose().y;
+    float theta = chassis.getPose().theta;
+
+    if (theta>170 && theta<190){
+        chassis.moveToPoint(x, y-13, 3000, {.maxSpeed = 60});
+        chassis.moveToPoint(x, y-20, 1500, {.maxSpeed = 10});
+
+        // chassis.moveToPoint(x, y-5, 5000, {.forwards = false, .maxSpeed = 90 });
+        // chassis.moveToPoint(x, y-12, 2000, {.maxSpeed = 10});
+
+    }
+    else{
+        chassis.moveToPoint(x, y+13, 3000, {.maxSpeed = 60});
+        chassis.moveToPoint(x, y+20, 1500, {.maxSpeed = 10});
+
+        // chassis.moveToPoint(x, y+5, 5000, {.forwards = false, .maxSpeed = 90});
+        // chassis.moveToPoint(x, y+12, 3000, {.maxSpeed = 10});
+
+        
+    }
 
 }

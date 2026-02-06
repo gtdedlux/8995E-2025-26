@@ -13,3 +13,4 @@ void rightSideAuto();
 void leftSideAuto();
 void skillsAuto();
 void thankYOU();
+void loadBalls();

@@ -7,14 +7,14 @@
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-pros::MotorGroup left_mg({-11, 13, -5},pros::MotorGearset::blue);   
+pros::MotorGroup left_mg({11, -13, -4},pros::MotorGearset::blue);   
 pros::MotorGroup right_mg({7, -8, 9}, pros::MotorGearset::blue);  
 
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_mg, // left motor group
                               &right_mg, // right motor group
-                              11.25, //track width
+                              11.06, //track width
                               lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
                               450, // drivetrain rpm 
                               8 // horizontal drift is 2 (for now)
@@ -31,13 +31,13 @@ lemlib::Drivetrain drivetrain(&left_mg, // left motor group
         // pros::Rotation horizontal_encoder(4);
 
 // vertical tracking wheel encoder
-pros::Rotation vertical_encoder(6);
+pros::Rotation vertical_encoder(-6);
 // horizontal tracking wheel
 
         // lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, 2.625); 
 
 // vertical tracking wheel
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, -1); 
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, 0); 
 // odometry settings
 
 lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
@@ -48,9 +48,9 @@ lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
 );
 
 // lateral PID controller
-lemlib::ControllerSettings lateral_controller(12, // proportional gain (kP)
+lemlib::ControllerSettings lateral_controller(9, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              70, // derivative gain (kD)
+                                              20, // derivative gain (kD)
                                               3, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
@@ -60,7 +60,7 @@ lemlib::ControllerSettings lateral_controller(12, // proportional gain (kP)
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(11, // proportional gain (kP)
+lemlib::ControllerSettings angular_controller(10, // proportional gain (kP)
                                               0, // integral gain (kI)
                                               80, // derivative gain (kD)
                                               3, // anti windup
@@ -162,6 +162,8 @@ void initialize() {
 
     chassis.calibrate();
     pros::lcd::set_text(0, "IMU Ready!");
+    
+//    intakeM.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
     pros::Task screen_task([]() {
         while (true) {
@@ -236,7 +238,7 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    //skillsAuto();
+    skillsAuto();
 
 }
 
@@ -273,31 +275,37 @@ void opcontrol() {
             autonomous();
         }
 
-        
-     setIntake1((master.get_digital(DIGITAL_R1) - master.get_digital(DIGITAL_R2)) * 127);
+        if (master.get_digital_new_press(DIGITAL_L1) && !(wing.is_extended())) {
+            wing.extend();            
+        }
+        else if (master.get_digital_new_press(DIGITAL_L2) && wing.is_extended()) {
+            wing.retract();
+        }
+
+        setIntake2((master.get_digital(DIGITAL_L1) - master.get_digital(DIGITAL_L2)) * 127);
 
         //Hack to fix PROS key stroke issues. it gives button press even when it not pressed.
     if (master.get_digital(DIGITAL_X)) {
         setIntakeM(90);
     } else {
-        setIntake2((master.get_digital(DIGITAL_L1) - master.get_digital(DIGITAL_L2)) * 127);
+        setIntake1((master.get_digital(DIGITAL_R1) - master.get_digital(DIGITAL_R2)) * 127);
     }
 
 
 
 		if (master.get_digital_new_press(DIGITAL_UP)) {
-		toungue.retract();
+		toungue.toggle();
 		}
-		if (master.get_digital_new_press(DIGITAL_DOWN)) {
-		toungue.extend();
-		}
+		// if (master.get_digital_new_press(DIGITAL_DOWN)) {
+		// toungue.extend();
+		// }
 
         if (master.get_digital_new_press(DIGITAL_B)) {
-		wing.retract();
+		wing.toggle();
 		}
-		if (master.get_digital_new_press(DIGITAL_A)) {
-		wing.extend();
-		}
+		// if (master.get_digital_new_press(DIGITAL_A)) {
+		// wing.extend();
+		// }
 
 
 

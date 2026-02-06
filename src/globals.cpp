@@ -23,9 +23,9 @@ pros::Imu imu2(20); //secondary imu sensor
 
 
 
- pros::Distance distanceF(18);
-
  pros::Distance distanceL(17);
+  pros::Distance distanceR(18);
+
 // pros::Rotation armSensor(13);
 
 

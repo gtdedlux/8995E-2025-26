@@ -19,8 +19,9 @@ extern pros::Imu imu;
 
 
  // extern pros::Optical optical;
- extern pros::Distance distanceF;
- extern pros::Distance distanceL;
+extern pros::Distance distanceL;
+extern pros::Distance distanceR;
+
 
  // extern pros::Rotation armSensor;
 
